@@ -1,69 +1,89 @@
 package fr.alten.amartin.kata_poi.Domain;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class PointOfInterestTest {
+class PointOfInterestTest {
 
-	@Before
-	public void setUp() throws Exception {
+	
+	@AfterEach
+	void tearDown() throws Exception {
+	}
+	@BeforeEach
+	void setUp() throws Exception {
 	}
 
 	@Test
 	public void testPointOfInterestSuccessNormal() {
-		
 		PointOfInterest poi = new PointOfInterest("id1", 50, 100);
-		assertEquals("id1", poi.getId());
-		assertEquals(50, poi.getLatitude(), 0.0);
-		assertEquals(100, poi.getLongitude(), 0.0);
+		assertAll("should return a correct ordinary poi",
+		() -> assertEquals("id1", poi.getId()),
+		() -> assertEquals(50, poi.getLatitude(), 0.0),
+		() -> assertEquals(100, poi.getLongitude(), 0.0)
+		);
 	}
 	
 	@Test
 	public void testPointOfInterestSuccessMin() {
-		
 		PointOfInterest poi = new PointOfInterest("id1", -90, -180);
-		assertEquals("id1", poi.getId());
-		assertEquals(-90, poi.getLatitude(), 0.0);
-		assertEquals(-180, poi.getLongitude(), 0.0);
+		assertAll("should return a correct poi with minimal coordinate",
+				() -> assertEquals("id1", poi.getId()),
+				() -> assertEquals(-90, poi.getLatitude(), 0.0),
+				() -> assertEquals(-180, poi.getLongitude(), 0.0)
+				);
 	}
 	
 	@Test
 	public void testPointOfInterestSuccessMax() {
-		
 		PointOfInterest poi = new PointOfInterest("id1", 90, 180);
-		assertEquals("id1", poi.getId());
-		assertEquals(90, poi.getLatitude(), 0.0);
-		assertEquals(180, poi.getLongitude(), 0.0);
+		assertAll("should return a correct poi with Maximal coordinate",
+				() -> assertEquals("id1", poi.getId()),
+				() -> assertEquals(90, poi.getLatitude(), 0.0),
+				() -> assertEquals(180, poi.getLongitude(), 0.0)
+				);
 	}
 	
 	@Test
-	public void testPointOfInterestFailName( ) {
-		
+	public void testPointOfInterestFailName() {
+		Exception e = Assertions.assertThrows(IllegalArgumentException.class, ()->{
+			PointOfInterest poi = new PointOfInterest(null, 90, 180);
+		});
+		assertEquals("id is null", e.getMessage());
 	}
 	
 	@Test
-	public void testPointOfInterestFailMin( ) {
+	public void testPointOfInterestFailMin() {
+		Exception e1 = Assertions.assertThrows(IllegalArgumentException.class, ()->{
+			PointOfInterest poi1 = new PointOfInterest("id1", -91, 0);
+		});
 		
+		Exception e2 = Assertions.assertThrows(IllegalArgumentException.class, ()->{
+			PointOfInterest poi2 = new PointOfInterest("id1", 0, -181);
+		});
+		assertAll("should check if exception reached when value is bellow minimal requested ",
+		() -> assertEquals("Incorrect latitude", e1.getMessage()),
+		() -> assertEquals("Incorrect longitude", e2.getMessage())
+		);
 	}
 	
 	@Test
-	public void testPointOfInterestFailMax( ) {
+	public void testPointOfInterestFailMax() {
+
+		Exception e1 = Assertions.assertThrows(IllegalArgumentException.class, ()->{
+			PointOfInterest poi1 = new PointOfInterest("id1", 91, 0);
+		});
 		
+		Exception e2 = Assertions.assertThrows(IllegalArgumentException.class, ()->{
+			PointOfInterest poi2 = new PointOfInterest("id1", 0, 181);
+		});
+		assertAll("should check if exception is raised when value is above maximal requested ",
+		() -> assertEquals("Incorrect latitude", e1.getMessage()),
+		() -> assertEquals("Incorrect longitude", e2.getMessage())
+		);
 	}
-	
-//	@Test
-//	public void testPointOfInterestFail() {
-//		fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	public void testEqualsObjectTrue() {
-//		fail("Not yet implemented");
-//	}
-	
-	
 
 }

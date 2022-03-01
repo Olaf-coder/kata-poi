@@ -5,6 +5,8 @@ package fr.alten.amartin.kata_poi.Domain;
 
 import java.util.Objects;
 
+import fr.alten.amartin.kata_poi.Exceptions.OutOfRangeNumberException;
+
 /**
  * @author Rellique
  *
@@ -51,15 +53,15 @@ public final class PointOfInterest {
 		this.id = id;
 	}
 
-	public void setLatitude(final float latitude) throws Exception {
+	public void setLatitude(final float latitude) throws OutOfRangeNumberException {
 		if (latitude > 90 || latitude < -90)
-			throw new Exception("latitude not correct: " + latitude);
+			throw new OutOfRangeNumberException("Incorrect latitude");
 		this.latitude = latitude;
 	}
 
-	public void setLongitude(final float longitude) throws Exception {
+	public void setLongitude(final float longitude) throws OutOfRangeNumberException {
 		if (longitude > 180 || longitude < -180)
-			throw new Exception("longitude not correct: " + longitude);
+			throw new OutOfRangeNumberException("Incorrect longitude");
 		this.longitude = longitude;
 	}
 
