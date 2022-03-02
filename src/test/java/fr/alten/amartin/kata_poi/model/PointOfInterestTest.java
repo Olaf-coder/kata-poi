@@ -1,4 +1,4 @@
-package fr.alten.amartin.kata_poi.Domain;
+package fr.alten.amartin.kata_poi.model;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -7,9 +7,13 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import fr.alten.amartin.kata_poi.model.PointOfInterest;
+/**
+ * 
+ * @author AMARTIN
+ *
+ */
 class PointOfInterestTest {
-
-	
 	@AfterEach
 	void tearDown() throws Exception {
 	}
@@ -23,7 +27,8 @@ class PointOfInterestTest {
 		assertAll("should return a correct ordinary poi",
 		() -> assertEquals("id1", poi.getId()),
 		() -> assertEquals(50, poi.getLatitude(), 0.0),
-		() -> assertEquals(100, poi.getLongitude(), 0.0)
+		() -> assertEquals(100, poi.getLongitude(), 0.0),
+		() -> assertEquals("PointOfInterest [id=id1, latitude=50.0, longitude=100.0]", poi.toString())
 		);
 	}
 	
@@ -85,5 +90,23 @@ class PointOfInterestTest {
 		() -> assertEquals("Incorrect longitude", e2.getMessage())
 		);
 	}
+	
+	@Test
+	public void testEqualsAndHashcodesObject() {
+		PointOfInterest poi1 = new PointOfInterest("id1", 38, 51);
+		PointOfInterest poi2 = new PointOfInterest("id1", 38, 51);
+		PointOfInterest poi3 = new PointOfInterest("id2", 66, 77);
+		
+		assertAll("Test if equals possibles results are correct", 
+				() -> assertTrue(poi1.equals(poi1) && poi1.equals(poi2) && poi2.equals(poi1)),
+				() -> assertFalse(poi1.equals(null) || poi1.equals("HELLO WORLD!") || poi1.equals(poi3)),
+				() -> assertTrue(poi1.hashCode() == poi2.hashCode())
+//				() -> assertFalse(poi1.equals("HELLO WORLD!")), 
+//				() -> assertTrue(poi1.equals(poi2) && poi2.equals(poi1)),
+//				() -> assertFalse(poi1.equals(poi3))
+				);
+	}
+	
+	
 
 }

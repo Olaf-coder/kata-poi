@@ -1,14 +1,14 @@
 /**
  * 
  */
-package fr.alten.amartin.kata_poi.Domain;
+package fr.alten.amartin.kata_poi.model;
 
 import java.util.Objects;
 
-import fr.alten.amartin.kata_poi.Exceptions.OutOfRangeNumberException;
+import fr.alten.amartin.kata_poi.exceptions.OutOfRangeNumberException;
 
-/**
- * @author Rellique
+/** Represent a Point of Interest (with a name and a precise coordinate (latitude and longitude)
+ * @author AMARTIN
  *
  */
 public final class PointOfInterest {
@@ -17,6 +17,12 @@ public final class PointOfInterest {
 	private float latitude;
 	private float longitude;
 	
+	/**
+	 * 
+	 * @param id
+	 * @param latitude
+	 * @param longitude
+	 */
 	public PointOfInterest(String id, float latitude, float longitude) {
 		super();
 		try {
@@ -24,14 +30,8 @@ public final class PointOfInterest {
 			setLatitude(latitude);
 			setLongitude(longitude);
 		} catch (Exception e) {
-//			System.out.println(e.getMessage());
-//			e.printStackTrace();
 			throw new IllegalArgumentException(e.getMessage());
 		}
-		
-//		this.id = id;
-//		this.latitude = latitude;
-//		this.longitude = longitude;
 		
 	}
 
@@ -47,20 +47,35 @@ public final class PointOfInterest {
 		return longitude;
 	}
 
+	/**
+	 * Set value of latitude while verifing it is not of map range {@link CoordinateConstants}
+	 * @param id
+	 * @throws NullPointerException
+	 */
 	public void setId(final String id) throws NullPointerException{
 		if (id == null)
 			throw new NullPointerException("id is null");
 		this.id = id;
 	}
 
+	/**
+	 * Set value of latitude while verifying it is not of map range (see {@link CoordinateConstants} for map ranges)
+	 * @param latitude
+	 * @throws OutOfRangeNumberException
+	 */
 	public void setLatitude(final float latitude) throws OutOfRangeNumberException {
-		if (latitude > 90 || latitude < -90)
+		if (latitude > CoordinateConstants.MAX_LAT || latitude < CoordinateConstants.MIN_LAT)
 			throw new OutOfRangeNumberException("Incorrect latitude");
 		this.latitude = latitude;
 	}
 
+	/** 
+	 * Set value of longitude while verifying it is not of map range (see {@link CoordinateConstants} for map ranges)
+	 * @param longitude
+	 * @throws OutOfRangeNumberException
+	 */
 	public void setLongitude(final float longitude) throws OutOfRangeNumberException {
-		if (longitude > 180 || longitude < -180)
+		if (longitude > CoordinateConstants.MAX_LONG || longitude < CoordinateConstants.MIN_LONG)
 			throw new OutOfRangeNumberException("Incorrect longitude");
 		this.longitude = longitude;
 	}
@@ -84,7 +99,8 @@ public final class PointOfInterest {
 		if (getClass() != obj.getClass())
 			return false;
 		PointOfInterest other = (PointOfInterest) obj;
-		return Objects.equals(id, other.id) && Float.floatToIntBits(latitude) == Float.floatToIntBits(other.latitude)
+		return Objects.equals(id, other.id) 
+				&& Float.floatToIntBits(latitude) == Float.floatToIntBits(other.latitude)
 				&& Float.floatToIntBits(longitude) == Float.floatToIntBits(other.longitude);
 	}
 	

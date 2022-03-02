@@ -1,4 +1,4 @@
-package fr.alten.amartin.kata_poi.Exceptions;
+package fr.alten.amartin.kata_poi.exceptions;
 
 public class OutOfRangeNumberException extends Exception {
 
