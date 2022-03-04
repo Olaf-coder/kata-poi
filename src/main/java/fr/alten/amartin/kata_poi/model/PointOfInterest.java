@@ -31,6 +31,17 @@ public final class PointOfInterest {
 			setLongitude(longitude);
 		} catch (Exception e) {
 			throw new IllegalArgumentException(e.getMessage());
+		}	
+	}
+	
+	public PointOfInterest(String id, double latitude, double longitude) {
+		super();
+		try {
+			setId(id);
+			setLatitude((float)latitude);
+			setLongitude((float)longitude);
+		} catch (Exception e) {
+			throw new IllegalArgumentException(e.getMessage());
 		}
 		
 	}

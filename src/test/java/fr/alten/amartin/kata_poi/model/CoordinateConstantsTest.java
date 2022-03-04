@@ -12,11 +12,11 @@ class CoordinateConstantsTest {
 	@Test
 	void testAllConstValues() {
 		assertAll(
-				() -> assertEquals( CoordinateConstants.MAX_LAT, 90),
-				() -> assertEquals( CoordinateConstants.MIN_LAT, -90),
-				() -> assertEquals( CoordinateConstants.MAX_LONG, 180),
-				() -> assertEquals( CoordinateConstants.MIN_LONG, -180),
-				() -> assertEquals( CoordinateConstants.UNIT, 0.5)
+				() -> assertEquals(90, CoordinateConstants.MAX_LAT),
+				() -> assertEquals(-90, CoordinateConstants.MIN_LAT),
+				() -> assertEquals(180, CoordinateConstants.MAX_LONG),
+				() -> assertEquals(-180, CoordinateConstants.MIN_LONG),
+				() -> assertEquals(  0.5,CoordinateConstants.UNIT)
 				);
 	}
 

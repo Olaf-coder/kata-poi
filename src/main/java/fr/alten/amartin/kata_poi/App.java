@@ -1,5 +1,10 @@
 package fr.alten.amartin.kata_poi;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
 import fr.alten.amartin.kata_poi.model.Area;
 import fr.alten.amartin.kata_poi.model.PointOfInterest;
 
@@ -25,5 +30,10 @@ public class App
         System.out.println(a1.toString());
 //        System.out.println(poi2.toString());
 //        System.out.println(poi3.toString());
+
+        ArrayList<String> mylist = new ArrayList<String>();
+        
+//        HashMap<Integer, String> mylist = new HashMap<Integer, String>();
+//        mylist.entrySet().stream().filter
     }
 }

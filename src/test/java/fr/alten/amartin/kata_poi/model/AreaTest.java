@@ -117,7 +117,7 @@ class AreaTest {
 		assertAll("Test if equals possibles results are correct", 
 				() -> assertTrue(a1.equals(a1) && a1.equals(a2) && a2.equals(a1)),
 				() -> assertFalse(a1.equals(null) || a1.equals("HELLO WORLD!") || a1.equals(a3)),
-				() -> assertTrue(a1.hashCode() == a2.hashCode())
+				() -> assertEquals(a1.hashCode(), a2.hashCode())
 				);
 	}
 
