@@ -13,11 +13,13 @@ import java.util.ArrayList;
 import org.apache.logging.log4j.core.util.Assert;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import fr.alten.amartin.kata_poi.exceptions.IllegalFormatLineException;
+import fr.alten.amartin.kata_poi.model.Area;
 import fr.alten.amartin.kata_poi.model.PointOfInterest;
 
 /**
@@ -26,32 +28,21 @@ import fr.alten.amartin.kata_poi.model.PointOfInterest;
  */
 
 //TODO Faire les TU avant de DEV
-class POIFileConvertorTest {
+class PoiFileConvertorTest {
 
 //	private final POIFileConvertor pfc = POIFileConvertor.getInstance();
 //	private final ArrayList<PointOfInterest> poiListEmpty = new ArrayList<PointOfInterest>();
 //	private final ArrayList<PointOfInterest> poiListModel = new ArrayList<PointOfInterest>();
 
 
-	private POIFileConvertor pfc = POIFileConvertor.getInstance();
+	private PoiFileConvertor pfc = PoiFileConvertor.getInstance();
 	private ArrayList<PointOfInterest> poiListEmpty;
 	private ArrayList<PointOfInterest> poiListModel;
 	private String poiFilepath;
-	
-	/**
-	 * @throws java.lang.Exception
-	 */
-	@BeforeAll
-	static void setUpBeforeClass() throws Exception {
-		
-	}
-
-	/**
-	 * @throws java.lang.Exception
-	 */
-	@AfterAll
-	static void tearDownAfterClass() throws Exception {
-	}
+	private String poiErrorHeaderFilepath;
+	private String poiErrorLineFormatFilepath;
+	private String poiErrorLineNumberFilepath;
+	private String poiErrorLineEmptyFilepath;
 
 	/**
 	 * @throws java.lang.Exception
@@ -69,6 +60,10 @@ class POIFileConvertorTest {
 		poiListModel.add(new PointOfInterest("id7", 0.1, -0.1));
 		poiListModel.add(new PointOfInterest("id8", -2.1, 38.1));
 		poiFilepath = "src/test/resources/poi.csv";
+		poiErrorHeaderFilepath = "src/test/resources/poiErrorHeader.csv";
+		poiErrorLineFormatFilepath = "src/test/resources/poiErrorLineFormat.csv";
+		poiErrorLineNumberFilepath = "src/test/resources/poiErrorLineNumber.csv";
+		poiErrorLineEmptyFilepath = "src/test/resources/poiErrorLineEmpty.csv";
 	}
 
 	/**
@@ -96,15 +91,16 @@ class POIFileConvertorTest {
 		pfc.verifyPoiLine("id1 51 -32.5");
 	}
 
-	@Test
-	void testVerifyIntegrityFileFromFilepathSuccess() throws IllegalFormatLineException, IOException{
-		pfc.verifyIntegrityFile(poiFilepath);
-	}
-	
-	@Test
-	void testVerifyIntegrityFileFromFileObjectSuccess() throws IllegalFormatLineException, IOException{
-		pfc.verifyIntegrityFile(new File(poiFilepath));
-	}
+//	@Test
+//	void testVerifyIntegrityFileFromFilepathSuccess() throws IllegalFormatLineException, IOException{
+//		pfc.verifyIntegrityFile(poiFilepath);
+//	}
+//	
+//	
+//	@Test
+//	void testVerifyIntegrityFileFromFileObjectSuccess() throws IllegalFormatLineException, IOException{
+//		pfc.verifyIntegrityFile(new File(poiFilepath));
+//	}
 
 	@Test
 	void testCreatePOIArrayFromFilePathSuccess() throws IOException, IllegalFormatLineException{
@@ -122,6 +118,83 @@ class POIFileConvertorTest {
 	//	} 
 	
 	//TODO Error Tests
+	@Test
+	void testVerifyFirstLineError() {
+		Exception e1 = Assertions.assertThrows(NullPointerException.class, ()->{
+			pfc.verifyFirstLine(null);
+		});
 
+		Exception e2 = Assertions.assertThrows(IllegalFormatLineException.class, ()->{
+			pfc.verifyFirstLine("@id @lon");
+		});
+	}
 
+	@Test
+	void testVerifyPoiLineError() {
+		Exception e1 = Assertions.assertThrows(NullPointerException.class, ()->{
+			pfc.verifyPoiLine(null);
+		});
+
+		Exception e2 = Assertions.assertThrows(IllegalFormatLineException.class, ()->{
+			pfc.verifyPoiLine("");
+		});
+
+		Exception e3 = Assertions.assertThrows(NumberFormatException.class, ()->{
+			pfc.verifyPoiLine("1d51 cc 0");
+		});
+	}
+
+	
+	@Test 
+	void testVerifyIntegrityFileError() {
+		Exception e1 = Assertions.assertThrows(IllegalArgumentException.class, ()->{
+			pfc.verifyIntegrityFile(null);
+		});
+		Exception e2 = Assertions.assertThrows(IllegalArgumentException.class, ()->{
+			pfc.verifyIntegrityFile(50);
+		});
+		Exception e3 = Assertions.assertThrows(IOException.class, ()->{
+			pfc.verifyIntegrityFile("");
+		});
+
+		Exception e4 = Assertions.assertThrows(IllegalFormatLineException.class, ()->{
+			pfc.createPOIArrayFromFile(poiErrorLineFormatFilepath);
+		});
+		
+
+		Exception e5 = Assertions.assertThrows(IllegalFormatLineException.class, ()->{
+			pfc.createPOIArrayFromFile(poiErrorLineEmptyFilepath);
+		});
+
+		Exception e6 = Assertions.assertThrows(NumberFormatException.class, ()->{
+			pfc.createPOIArrayFromFile(poiErrorLineNumberFilepath);
+		});
+	}
+	
+	
+	@Test
+	void testCreatePOIArrayFromFileError() throws IOException, IllegalFormatLineException {
+//		Exception e1 = Assertions.assertThrows(IllegalArgumentException.class, ()->{
+//			pfc.createPOIArrayFromFile(null);
+//		});
+		Exception e1 = Assertions.assertThrows(IllegalArgumentException.class, ()->{
+			pfc.createPOIArrayFromFile(null);
+		});
+		Exception e2 = Assertions.assertThrows(IllegalArgumentException.class, ()->{
+			pfc.createPOIArrayFromFile(50);
+		});
+		Exception e3 = Assertions.assertThrows(IOException.class, ()->{
+			pfc.createPOIArrayFromFile("");
+		});
+		
+		Exception e4 = Assertions.assertThrows(IllegalFormatLineException.class, ()->{
+			pfc.createPOIArrayFromFile(poiErrorLineFormatFilepath);
+		});
+
+		Exception e5 = Assertions.assertThrows(NumberFormatException.class, ()->{
+			pfc.createPOIArrayFromFile(poiErrorLineNumberFilepath);
+		});
+		//illegalFormatLine in file
+		//NumberFormatExcpetion in file
+	}
 }

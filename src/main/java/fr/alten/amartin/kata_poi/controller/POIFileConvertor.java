@@ -12,21 +12,21 @@ import java.util.Arrays;
 import fr.alten.amartin.kata_poi.exceptions.IllegalFormatLineException;
 import fr.alten.amartin.kata_poi.model.PointOfInterest;
 
-public class POIFileConvertor {
+public class PoiFileConvertor {
 
-	private static POIFileConvertor instance;
+	private static PoiFileConvertor instance;
 	
 	static final String[] POI_HEADER = {"@id", "@lat", "@lon"};
 	
-	private POIFileConvertor() {
+	private PoiFileConvertor() {
 		
 	}
 	
-	public static POIFileConvertor getInstance() {
+	public static PoiFileConvertor getInstance() {
 		if (instance == null) {
-			synchronized (POIFileConvertor.class) {
+			synchronized (PoiFileConvertor.class) {
 				if(instance == null) {
-					instance = new POIFileConvertor();
+					instance = new PoiFileConvertor();
 				}
 			}
 		}
@@ -55,43 +55,55 @@ public class POIFileConvertor {
 		return new PointOfInterest(id, lat, lon);
 	}
 	
-	
-	//TODO
 	public void verifyIntegrityFile(final Object poiFilePath) throws IllegalFormatLineException, IOException {
 		FileReader fileReader = null;
 		String line;
+		String incorrectType;
 
 		if (poiFilePath instanceof File)
 			fileReader = new FileReader((File)poiFilePath);
 		else if (poiFilePath instanceof String)
 			fileReader = new FileReader((String)poiFilePath);
-		else
-			throw new IllegalArgumentException(poiFilePath.getClass().getSimpleName() + " instead of File or String");
+		else {
+			if (poiFilePath == null)
+				incorrectType = "Null";
+			else
+				incorrectType = poiFilePath.getClass().getSimpleName();
+			throw new IllegalArgumentException(incorrectType + " instead of File or String");
+		}
 		try (BufferedReader bufferedReader = new BufferedReader(fileReader)) {
 			verifyFirstLine(bufferedReader.readLine());
-			while ((line = bufferedReader.readLine()) != null)
+			while ((line = bufferedReader.readLine()) != null) {
 				verifyPoiLine(line);
+			}
 		}
+		fileReader.close();
 	}
 	
-	public ArrayList<PointOfInterest> createPOIArrayFromFile(final Object poilFile) throws IOException, IllegalFormatLineException {
-		ArrayList<PointOfInterest> poiList = new ArrayList<PointOfInterest>();
+	public ArrayList<PointOfInterest> createPOIArrayFromFile(final Object poiFile) throws IOException, IllegalFormatLineException {
 		
+		ArrayList<PointOfInterest> poiList = new ArrayList<>();
 		FileReader fileReader = null;
 		String line;
+		String incorrectType;
 
-		if (poilFile instanceof File)
-			fileReader = new FileReader((File)poilFile);
-		else if (poilFile instanceof String)
-			fileReader = new FileReader((String)poilFile);
-		else
-			throw new IllegalArgumentException(poilFile.getClass().getSimpleName() + " instead of File or String");
+		if (poiFile instanceof File)
+			fileReader = new FileReader((File)poiFile);
+		else if (poiFile instanceof String)
+			fileReader = new FileReader((String)poiFile);
+		else {
+			if (poiFile == null)
+				incorrectType = "Null";
+			else
+				incorrectType = poiFile.getClass().getSimpleName();
+			throw new IllegalArgumentException(incorrectType + " instead of File or String");
+		}
 		try (BufferedReader bufferedReader = new BufferedReader(fileReader)) {
 			verifyFirstLine(bufferedReader.readLine());
 			while ((line = bufferedReader.readLine()) != null)
 				poiList.add(verifyPoiLine(line));
 		}
-		
+		fileReader.close();
 		return poiList;
 	}
 	

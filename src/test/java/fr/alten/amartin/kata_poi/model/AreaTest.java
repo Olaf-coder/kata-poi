@@ -21,6 +21,11 @@ class AreaTest {
 	void tearDown() throws Exception {
 	}
 
+	
+	/**
+	 * TEST : Successes
+	 */
+	
 	@Test
 	void testAreaFullConstructNormalSuccess() {
 		Area a = new Area(50, 60.5f, 50.5f, 61);
@@ -67,6 +72,23 @@ class AreaTest {
 	}
 	
 	@Test
+	void testEqualsAndHashcodeObject() {
+		Area a1 = new Area(89.5f, 179.5f, 90, 180);
+		Area a2 = new Area(89.5f, 179.5f, 90, 180);
+		Area a3 = new Area(5, 10, 5.5f, 10.5f);
+		
+		assertAll("Test if equals possibles results are correct", 
+				() -> assertTrue(a1.equals(a1) && a1.equals(a2) && a2.equals(a1)),
+				() -> assertFalse(a1.equals(null) || a1.equals("HELLO WORLD!") || a1.equals(a3)),
+				() -> assertEquals(a1.hashCode(), a2.hashCode())
+				);
+	}
+	
+	/**
+	 * TEST : Failures
+	 */
+
+	@Test
 	void testAreaHalfParamsConstructFail() {
 		Exception e = Assertions.assertThrows(IllegalArgumentException.class, ()->{
 			Area a = new Area(50, 999);
@@ -108,18 +130,6 @@ class AreaTest {
 		assertEquals("MaxLongitude lower than MinLongitude", e2.getMessage());
 	}
 	
-	@Test
-	void testEqualsAndHashcodeObject() {
-		Area a1 = new Area(89.5f, 179.5f, 90, 180);
-		Area a2 = new Area(89.5f, 179.5f, 90, 180);
-		Area a3 = new Area(5, 10, 5.5f, 10.5f);
-		
-		assertAll("Test if equals possibles results are correct", 
-				() -> assertTrue(a1.equals(a1) && a1.equals(a2) && a2.equals(a1)),
-				() -> assertFalse(a1.equals(null) || a1.equals("HELLO WORLD!") || a1.equals(a3)),
-				() -> assertEquals(a1.hashCode(), a2.hashCode())
-				);
-	}
 
 	
 }

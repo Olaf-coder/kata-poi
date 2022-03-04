@@ -9,6 +9,11 @@ import org.junit.jupiter.api.Test;
 import fr.alten.amartin.kata_poi.model.CoordinateConstants;
 
 class CoordinateConstantsTest {
+	
+	/**
+	 * TEST : Successes
+	 */
+
 	@Test
 	void testAllConstValues() {
 		assertAll(

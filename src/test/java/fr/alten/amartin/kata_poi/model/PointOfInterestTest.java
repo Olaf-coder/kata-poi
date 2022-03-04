@@ -14,12 +14,10 @@ import fr.alten.amartin.kata_poi.model.PointOfInterest;
  *
  */
 class PointOfInterestTest {
-	@AfterEach
-	void tearDown() throws Exception {
-	}
-	@BeforeEach
-	void setUp() throws Exception {
-	}
+
+	/**
+	 * TEST : Successes
+	 */
 
 	@Test
 	public void testPointOfInterestSuccessNormal() {
@@ -51,7 +49,28 @@ class PointOfInterestTest {
 				() -> assertEquals(180, poi.getLongitude(), 0.0)
 				);
 	}
+
+
+	@Test
+	public void testEqualsAndHashcodesObject() {
+		PointOfInterest poi1 = new PointOfInterest("id1", 38, 51);
+		PointOfInterest poi2 = new PointOfInterest("id1", 38, 51);
+		PointOfInterest poi3 = new PointOfInterest("id2", 66, 77);
+		
+		assertAll("Test if equals possibles results are correct", 
+				() -> assertTrue(poi1.equals(poi1) && poi1.equals(poi2) && poi2.equals(poi1)),
+				() -> assertFalse(poi1.equals(null) || poi1.equals("HELLO WORLD!") || poi1.equals(poi3)),
+				() -> assertTrue(poi1.hashCode() == poi2.hashCode())
+//				() -> assertFalse(poi1.equals("HELLO WORLD!")), 
+//				() -> assertTrue(poi1.equals(poi2) && poi2.equals(poi1)),
+//				() -> assertFalse(poi1.equals(poi3))
+				);
+	}
 	
+	/**
+	 * TEST : Failures
+	 */
+
 	@Test
 	public void testPointOfInterestFailName() {
 		Exception e = Assertions.assertThrows(IllegalArgumentException.class, ()->{
@@ -91,21 +110,6 @@ class PointOfInterestTest {
 		);
 	}
 	
-	@Test
-	public void testEqualsAndHashcodesObject() {
-		PointOfInterest poi1 = new PointOfInterest("id1", 38, 51);
-		PointOfInterest poi2 = new PointOfInterest("id1", 38, 51);
-		PointOfInterest poi3 = new PointOfInterest("id2", 66, 77);
-		
-		assertAll("Test if equals possibles results are correct", 
-				() -> assertTrue(poi1.equals(poi1) && poi1.equals(poi2) && poi2.equals(poi1)),
-				() -> assertFalse(poi1.equals(null) || poi1.equals("HELLO WORLD!") || poi1.equals(poi3)),
-				() -> assertTrue(poi1.hashCode() == poi2.hashCode())
-//				() -> assertFalse(poi1.equals("HELLO WORLD!")), 
-//				() -> assertTrue(poi1.equals(poi2) && poi2.equals(poi1)),
-//				() -> assertFalse(poi1.equals(poi3))
-				);
-	}
 	
 	
 
