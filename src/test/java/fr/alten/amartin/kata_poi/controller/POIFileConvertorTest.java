@@ -36,7 +36,6 @@ class PoiFileConvertorTest {
 
 
 	private PoiFileConvertor pfc = PoiFileConvertor.getInstance();
-	private ArrayList<PointOfInterest> poiListEmpty;
 	private ArrayList<PointOfInterest> poiListModel;
 	private String poiFilepath;
 	private String poiErrorHeaderFilepath;
@@ -49,7 +48,6 @@ class PoiFileConvertorTest {
 	 */
 	@BeforeEach
 	void setUp() throws Exception {
-		poiListEmpty = new ArrayList<PointOfInterest>();
 		poiListModel = new ArrayList<PointOfInterest>();
 		poiListModel.add(new PointOfInterest("id1", -48.6, -37.7));
 		poiListModel.add(new PointOfInterest("id2", -27.1, 8.4));
@@ -158,15 +156,19 @@ class PoiFileConvertorTest {
 		});
 
 		Exception e4 = Assertions.assertThrows(IllegalFormatLineException.class, ()->{
+			pfc.createPOIArrayFromFile(poiErrorHeaderFilepath);
+		});
+		
+		Exception e5 = Assertions.assertThrows(IllegalFormatLineException.class, ()->{
 			pfc.createPOIArrayFromFile(poiErrorLineFormatFilepath);
 		});
 		
 
-		Exception e5 = Assertions.assertThrows(IllegalFormatLineException.class, ()->{
+		Exception e6 = Assertions.assertThrows(IllegalFormatLineException.class, ()->{
 			pfc.createPOIArrayFromFile(poiErrorLineEmptyFilepath);
 		});
 
-		Exception e6 = Assertions.assertThrows(NumberFormatException.class, ()->{
+		Exception e7 = Assertions.assertThrows(NumberFormatException.class, ()->{
 			pfc.createPOIArrayFromFile(poiErrorLineNumberFilepath);
 		});
 	}
@@ -186,12 +188,19 @@ class PoiFileConvertorTest {
 		Exception e3 = Assertions.assertThrows(IOException.class, ()->{
 			pfc.createPOIArrayFromFile("");
 		});
-		
+
 		Exception e4 = Assertions.assertThrows(IllegalFormatLineException.class, ()->{
+			pfc.createPOIArrayFromFile(poiErrorHeaderFilepath);
+		});
+		
+		Exception e5 = Assertions.assertThrows(IllegalFormatLineException.class, ()->{
 			pfc.createPOIArrayFromFile(poiErrorLineFormatFilepath);
 		});
 
-		Exception e5 = Assertions.assertThrows(NumberFormatException.class, ()->{
+		Exception e6 = Assertions.assertThrows(IllegalFormatLineException.class, ()->{
+			pfc.createPOIArrayFromFile(poiErrorLineEmptyFilepath);
+		});
+		Exception e7 = Assertions.assertThrows(NumberFormatException.class, ()->{
 			pfc.createPOIArrayFromFile(poiErrorLineNumberFilepath);
 		});
 		//illegalFormatLine in file

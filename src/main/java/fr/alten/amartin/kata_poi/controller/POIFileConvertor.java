@@ -41,7 +41,7 @@ public class PoiFileConvertor {
 		if (!(Arrays.equals(POI_HEADER, fLSplited))) {
 			throw new IllegalFormatLineException();
 		}
-	};
+	}
 	
 	public PointOfInterest verifyPoiLine(final String poiLine) throws IllegalFormatLineException, NumberFormatException {
 		if (poiLine == null)
