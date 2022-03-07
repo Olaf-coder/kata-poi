@@ -4,7 +4,7 @@ package fr.alten.amartin.kata_poi.model;
  * <p>CoordinateConstants represent the maximal and minimal limit of the MAP where you can find the POI.</p>
  * <p>Note for the next version of the library: use a property file  and verify if MAX/MIN_LAT/LON % UNIT == 0.</p>
  *  
- * @author Rellique
+ * @author AMARTIN
  *
  */
 public final class CoordinateConstants {

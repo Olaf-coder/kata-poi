@@ -158,7 +158,7 @@ public class PoiFileConvertor {
 //		
 //	}
 
-	// // BillPugh implementation, non thread-safe?
+// // BillPugh implementation, non thread-safe?
 //	private POIFileConvertor() {
 //		// TODO Auto-generated constructor stub
 //	}
