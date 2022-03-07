@@ -4,12 +4,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import fr.alten.amartin.kata_poi.exceptions.IllegalFormatLineException;
 import fr.alten.amartin.kata_poi.model.Area;
@@ -30,8 +32,8 @@ import fr.alten.amartin.kata_poi.model.PointOfInterest;
  */
 public class PoiSearchEngine {
 
-	private List<PointOfInterest> poiListFromFile;
-	private List<Area> denseAreaDescList;
+	private ArrayList<PointOfInterest> poiListFromFile;
+	private ArrayList<Area> denseAreaDescList;
 	private LinkedHashMap<Area, Integer> areaWithNbPoiDescMap;
 	
 
@@ -122,6 +124,21 @@ public class PoiSearchEngine {
 	 */
 	public List<Area> findNstDensestAreas(final int nAreas) {
 		int size = nAreas > denseAreaDescList.size() || nAreas < 0 ? denseAreaDescList.size() : nAreas;
-		return denseAreaDescList.subList(0, size);
+		return (denseAreaDescList.subList(0, size));
+	}
+	
+	/**
+	 * Get the first Densest Areas. in JsonString
+	 * 
+	 * @param nAreas the number of densest areas
+	 * @return a json String that represent the List<Area> with nAreas first densest areas
+	 * @throws JsonProcessingException 
+	 */
+	public String findNstDensestAreasToJson(final int nAreas) throws JsonProcessingException {
+		int size = nAreas > denseAreaDescList.size() || nAreas < 0 ? denseAreaDescList.size() : nAreas;
+		ObjectMapper mapper = new ObjectMapper();
+		
+		List<Area> listFilteredDenseAreaDescList = denseAreaDescList.subList(0, size);
+		return mapper.writeValueAsString(listFilteredDenseAreaDescList);
 	}
 }

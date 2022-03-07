@@ -13,8 +13,8 @@ import fr.alten.amartin.kata_poi.exceptions.OutOfRangeNumberException;
 public final class Area {
 
 	private float minLat;
-	private float minLon;
 	private float maxLat;
+	private float minLon;
 	private float maxLon;
 	
 	/**

@@ -10,6 +10,8 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+
 import fr.alten.amartin.kata_poi.model.Area;
 
 class PoiSearchEngineTest {
@@ -18,6 +20,7 @@ class PoiSearchEngineTest {
 	private PoiSearchEngine PoiSENoLine;
 	private String poiFilepath;
 	private String poiFilepathNoLine;
+	private String findNstDensestJsonResult;
 	private ArrayList<Area> targetAreaList;
 	private ArrayList<Area> densiestAreaSortedFullList;
 	private ArrayList<Area> maximalAndMinimalAreaList;
@@ -26,6 +29,7 @@ class PoiSearchEngineTest {
 	void setUp() throws Exception {
 		poiFilepath = "src/test/resources/poi.csv";
 		poiFilepathNoLine = "src/test/resources/poiErrorNoLine.csv";
+		findNstDensestJsonResult = "[{\"minLat\":-2.5,\"maxLat\":-2.0,\"minLon\":38.0,\"maxLon\":38.5},{\"minLat\":6.5,\"maxLat\":7.0,\"minLon\":-7.0,\"maxLon\":-6.5}]";
 		PoiSE = new PoiSearchEngine(poiFilepath);
 		PoiSENoLine = new PoiSearchEngine(poiFilepathNoLine);
 		targetAreaList = new ArrayList<Area>();
@@ -69,6 +73,12 @@ class PoiSearchEngineTest {
 	@Test
 	void testFindNstDensestAreas() {
 		assertEquals(targetAreaList, PoiSE.findNstDensestAreas(2));
+	}
+	
+	@Test
+	void testFindNstDensestAreasToJson() throws JsonProcessingException {
+//		System.out.println(PoiSE.findNstDensestAreasToJson(2));
+		assertEquals(findNstDensestJsonResult, PoiSE.findNstDensestAreasToJson(2));
 	}
 	
 	@Test
