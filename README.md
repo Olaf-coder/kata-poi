@@ -7,6 +7,8 @@ For privacy reasons (and because i don't want other candidates reuse my code), i
 
 Nevertheless, i will give the result here publicly. Enjoy !
 
+Note: For the next version, CoordinateConstants should disapear since i plan to read a user poiMap.properties File.
+
 
 
 ## Point of interest file (poi.csv)
