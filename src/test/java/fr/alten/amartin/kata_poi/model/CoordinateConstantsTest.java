@@ -17,11 +17,11 @@ class CoordinateConstantsTest {
 	@Test
 	void testAllConstValues() {
 		assertAll(
-				() -> assertEquals(90, CoordinateConstants.MAX_LAT),
-				() -> assertEquals(-90, CoordinateConstants.MIN_LAT),
-				() -> assertEquals(180, CoordinateConstants.MAX_LONG),
-				() -> assertEquals(-180, CoordinateConstants.MIN_LONG),
-				() -> assertEquals(  0.5,CoordinateConstants.UNIT)
+				() -> assertEquals(90, CoordinateConstants.getInstance().maxLat),
+				() -> assertEquals(-90, CoordinateConstants.getInstance().minLat),
+				() -> assertEquals(180, CoordinateConstants.getInstance().maxLon),
+				() -> assertEquals(-180, CoordinateConstants.getInstance().minLon),
+				() -> assertEquals(  0.5,CoordinateConstants.getInstance().unit)
 				);
 	}
 

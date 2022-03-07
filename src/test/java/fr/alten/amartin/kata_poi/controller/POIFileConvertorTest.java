@@ -27,13 +27,7 @@ import fr.alten.amartin.kata_poi.model.PointOfInterest;
  *
  */
 
-//TODO Faire les TU avant de DEV
 class PoiFileConvertorTest {
-
-//	private final POIFileConvertor pfc = POIFileConvertor.getInstance();
-//	private final ArrayList<PointOfInterest> poiListEmpty = new ArrayList<PointOfInterest>();
-//	private final ArrayList<PointOfInterest> poiListModel = new ArrayList<PointOfInterest>();
-
 
 	private PoiFileConvertor pfc = PoiFileConvertor.getInstance();
 	private ArrayList<PointOfInterest> poiListModel;

@@ -17,6 +17,7 @@ public final class PointOfInterest {
 	private String id;
 	private float latitude;
 	private float longitude;
+	CoordinateConstants cc = CoordinateConstants.getInstance();
 	
 	/**
 	 * Create Point Of Interest
@@ -96,7 +97,7 @@ public final class PointOfInterest {
 	 * @throws OutOfRangeNumberException if longitude exceed the {@link CoordinateConstants}.[MAX/MIN]_LAT LIMIT
 	 */
 	public void setLatitude(final float latitude) throws OutOfRangeNumberException{
-		if (latitude > CoordinateConstants.MAX_LAT || latitude < CoordinateConstants.MIN_LAT)
+		if (latitude > cc.maxLat || latitude < cc.minLat)
 			throw new OutOfRangeNumberException("Incorrect latitude");
 		this.latitude = latitude;
 	}
@@ -108,7 +109,7 @@ public final class PointOfInterest {
 	 * @throws OutOfRangeNumberException if longitude exceed the {@link CoordinateConstants}.[MAX/MIN]_LONG LIMIT
 	 */
 	public void setLongitude(final float longitude)  throws OutOfRangeNumberException{
-		if (longitude > CoordinateConstants.MAX_LONG || longitude < CoordinateConstants.MIN_LONG)
+		if (longitude > cc.maxLon || longitude < cc.minLon)
 			throw new OutOfRangeNumberException("Incorrect longitude");
 		this.longitude = longitude;
 	}

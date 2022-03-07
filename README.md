@@ -7,9 +7,25 @@ For privacy reasons (and because i don't want other candidates reuse my code), i
 
 Nevertheless, i will give the result here publicly. Enjoy !
 
-Note: For the next version, CoordinateConstants should disapear since i plan to read a user poiMap.properties File.
+Note: In the current version, you can create the property file PoiMapConfig.properties in order to define the limit of the MAP.
+The file must be a Java resource in order to be considered by the library.
+If there is not PoiMapConfig.properties the values will be :
+* minLat=-90
+* maxLat=90
+* minLon=-180
+* maxLon=180
+* unit=0.5
 
 
+## Map Configuration File format (PoiMapConfig.properties)
+
+```text
+MinLatitude=-90
+MaxLatitude=90
+MinLongitude=-180
+MaxLongitude=180
+Unit=*0.5
+```
 
 ## Point of interest file (poi.csv)
 ```text
@@ -29,15 +45,17 @@ import java.io.IOException;
 import fr.alten.amartin.kata_poi.controller.PoiSearchEngine;
 import fr.alten.amartin.kata_poi.exceptions.IllegalFormatLineException;
 
-public static void main( String[] args )
+    public static void main( String[] args )
     {
+    	System.out.println(CoordinateConstants.getInstance().maxLat);
+    	
     	try {
-			PoiSearchEngine pse = new PoiSearchEngine("src/test/resources/poi.csv");
-			String result = pse.findNstDensestAreasToJson(2);
-			System.out.println(result);
+			PoiSearchEngine poi = new PoiSearchEngine("src/main/resources/poi.csv");
+			System.out.println(poi.findNstDensestAreas(2));
 		} catch (IllegalFormatLineException | IOException e) {
 			e.printStackTrace();
 		}
+    	
     }
 ```
 

@@ -93,10 +93,11 @@ public class PoiSearchEngine {
 	private void calculateAreaDensiestList() {
 		float iterLat;
 		float iterLon;
+		CoordinateConstants cc = CoordinateConstants.getInstance();
 		Map<Area, Integer> unsortedPoiPerArea = new HashMap<>();
 		
-		for (iterLat = CoordinateConstants.MIN_LAT; iterLat < CoordinateConstants.MAX_LAT; iterLat += CoordinateConstants.UNIT) {
-			for (iterLon = CoordinateConstants.MIN_LONG; iterLon < CoordinateConstants.MAX_LONG; iterLon += CoordinateConstants.UNIT) {
+		for (iterLat = cc.minLat; iterLat < cc.maxLat; iterLat += cc.unit) {
+			for (iterLon = cc.minLon; iterLon < cc.maxLon; iterLon += cc.unit) {
 				int result = calculatePoisInArea(iterLat, iterLon);
 				if (result > 0)
 				{
