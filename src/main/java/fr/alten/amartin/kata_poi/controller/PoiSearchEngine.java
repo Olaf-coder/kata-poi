@@ -16,6 +16,18 @@ import fr.alten.amartin.kata_poi.model.Area;
 import fr.alten.amartin.kata_poi.model.CoordinateConstants;
 import fr.alten.amartin.kata_poi.model.PointOfInterest;
 
+/**
+ * Serves to search Point Of Interest in a File
+ * This is the main Object of the package.
+ * <pre>
+ * {@link #calculatePoisInArea(Area)}
+ * {@link #calculatePoisInArea(float, float)}
+ * {@link #calculatePoisInArea(double, double)}
+ * {@link #findNstDensestAreas(int)}
+ * </pre>
+ * @author AMARTIN
+ *
+ */
 public class PoiSearchEngine {
 
 	private List<PointOfInterest> poiListFromFile;
@@ -28,7 +40,14 @@ public class PoiSearchEngine {
 		calculateAreaDensiestList();
 		
 	}
-	
+
+	/**
+	 * Calculate the POI number in the given area
+	 * 
+	 * @param minLat the minimal Latitude of the targeted Area
+	 * @param minLon the minimal Longitude of the targeted Area
+	 * @return the number of POI detected in the Area
+	 */
 	public int calculatePoisInArea(final float minLat, final float minLon) {
 		Area targetArea = new Area(minLat, minLon);
 		float maxLat = targetArea.getMaxLat();
@@ -44,11 +63,32 @@ public class PoiSearchEngine {
 		return listPoi.size();
 	}
 	
+	/**
+	 * Calculate the POI number in the given area
+	 * 
+	 * @param minLat the minimal Latitude of the targeted Area
+	 * @param minLon the minimal Longitude of the targeted Area
+	 * @return the number of POI detected in the Area
+	 */
 	public int calculatePoisInArea(final double minLat, final double minLon) {
 		return calculatePoisInArea((float)minLat, (float)minLon);
 	}
+	
+	/**
+	 * Calculate the POI number in the given area
+	 * 
+	 * @param Area the targeted Area in which we must find Poi
+	 * @return the number of POI find in the Area
+	 */
+	public int calculatePoisInArea(Area area) {
+		return calculatePoisInArea(area.getMinLat(), area.getMinLon());
+	}
 
-	public void calculateAreaDensiestList() {
+	/**
+	 * Calculate density for area (with at least 1 POI) and ranked them in decreasing order.
+	 * Musn't be called outside PoiSearchEngine
+	 */
+	private void calculateAreaDensiestList() {
 		float iterLat;
 		float iterLon;
 		Map<Area, Integer> unsortedPoiPerArea = new HashMap<>();
@@ -71,10 +111,15 @@ public class PoiSearchEngine {
 				    Map.Entry::getValue, 
 				    (oldValue, newValue) -> oldValue, LinkedHashMap::new));
 		
-		denseAreaDescList = new ArrayList<Area>(areaWithNbPoiDescMap.keySet());
-		denseAreaDescList.forEach(t -> System.out.println(t));
+		denseAreaDescList = new ArrayList<>(areaWithNbPoiDescMap.keySet());
 	}
 	
+	/**
+	 * Get the first Densest Areas.
+	 * 
+	 * @param nAreas the number of densest areas
+	 * @return an List<Area> with nAreas first densest areas
+	 */
 	public List<Area> findNstDensestAreas(final int nAreas) {
 		int size = nAreas > denseAreaDescList.size() || nAreas < 0 ? denseAreaDescList.size() : nAreas;
 		return denseAreaDescList.subList(0, size);

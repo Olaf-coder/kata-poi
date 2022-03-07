@@ -20,6 +20,7 @@ class PoiSearchEngineTest {
 	private String poiFilepathNoLine;
 	private ArrayList<Area> targetAreaList;
 	private ArrayList<Area> densiestAreaSortedFullList;
+	private ArrayList<Area> maximalAndMinimalAreaList;
 	
 	@BeforeEach
 	void setUp() throws Exception {
@@ -39,6 +40,17 @@ class PoiSearchEngineTest {
 		densiestAreaSortedFullList.add(new Area((float) -27.5, (float) 8));
 		densiestAreaSortedFullList.add(new Area((float) -49, (float) -38));
 		densiestAreaSortedFullList.add(new Area((float) 0, (float) -0.5));
+		
+		maximalAndMinimalAreaList = new ArrayList<Area>();
+		maximalAndMinimalAreaList.add(new Area((float) -2.5, (float) 38));
+		maximalAndMinimalAreaList.add(new Area((float) 6.5, (float) -7));
+		maximalAndMinimalAreaList.add(new Area((float) -3, (float) 38));
+		maximalAndMinimalAreaList.add(new Area((float) -27.5, (float) 8));
+		maximalAndMinimalAreaList.add(new Area((float) -49, (float) -38));
+		maximalAndMinimalAreaList.add(new Area((float) 0, (float) -0.5));
+		maximalAndMinimalAreaList.add(new Area((float) -90, (float) -180));
+		maximalAndMinimalAreaList.add(new Area((float) 89, (float) 179.5));
+		
 	}
 
 	@AfterEach
@@ -53,10 +65,6 @@ class PoiSearchEngineTest {
 		assertEquals(2, PoiSE.calculatePoisInArea(6.5, -7));
 	}
 	
-	@Test
-	void testCalculateAreaDensiestList() {
-		PoiSE.calculateAreaDensiestList();
-	}
 	
 	@Test
 	void testFindNstDensestAreas() {

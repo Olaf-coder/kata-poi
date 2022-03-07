@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import fr.alten.amartin.kata_poi.exceptions.OutOfRangeNumberException;
 import fr.alten.amartin.kata_poi.model.PointOfInterest;
 /**
  * 
@@ -61,9 +62,6 @@ class PointOfInterestTest {
 				() -> assertTrue(poi1.equals(poi1) && poi1.equals(poi2) && poi2.equals(poi1)),
 				() -> assertFalse(poi1.equals(null) || poi1.equals("HELLO WORLD!") || poi1.equals(poi3)),
 				() -> assertTrue(poi1.hashCode() == poi2.hashCode())
-//				() -> assertFalse(poi1.equals("HELLO WORLD!")), 
-//				() -> assertTrue(poi1.equals(poi2) && poi2.equals(poi1)),
-//				() -> assertFalse(poi1.equals(poi3))
 				);
 	}
 	
@@ -76,16 +74,16 @@ class PointOfInterestTest {
 		Exception e = Assertions.assertThrows(IllegalArgumentException.class, ()->{
 			PointOfInterest poi = new PointOfInterest(null, 90, 180);
 		});
-		assertEquals("id is null", e.getMessage());
+		assertEquals("Id is null", e.getMessage());
 	}
 	
 	@Test
 	public void testPointOfInterestFailMin() {
-		Exception e1 = Assertions.assertThrows(IllegalArgumentException.class, ()->{
+		Exception e1 = Assertions.assertThrows(OutOfRangeNumberException.class, ()->{
 			PointOfInterest poi1 = new PointOfInterest("id1", -91, 0);
 		});
 		
-		Exception e2 = Assertions.assertThrows(IllegalArgumentException.class, ()->{
+		Exception e2 = Assertions.assertThrows(OutOfRangeNumberException.class, ()->{
 			PointOfInterest poi2 = new PointOfInterest("id1", 0, -181);
 		});
 		assertAll("should check if exception reached when value is bellow minimal requested ",
@@ -97,11 +95,11 @@ class PointOfInterestTest {
 	@Test
 	public void testPointOfInterestFailMax() {
 
-		Exception e1 = Assertions.assertThrows(IllegalArgumentException.class, ()->{
+		Exception e1 = Assertions.assertThrows(OutOfRangeNumberException.class, ()->{
 			PointOfInterest poi1 = new PointOfInterest("id1", 91, 0);
 		});
 		
-		Exception e2 = Assertions.assertThrows(IllegalArgumentException.class, ()->{
+		Exception e2 = Assertions.assertThrows(OutOfRangeNumberException.class, ()->{
 			PointOfInterest poi2 = new PointOfInterest("id1", 0, 181);
 		});
 		assertAll("should check if exception is raised when value is above maximal requested ",

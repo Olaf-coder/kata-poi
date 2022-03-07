@@ -1,11 +1,20 @@
 package fr.alten.amartin.kata_poi.exceptions;
 
-public class IllegalFormatLineException extends Exception{
+/**
+ * The IllegalFormatLineException is there to highlight error linked to PoiOfInterest file reading
+ * 
+ * <pre>
+ * Example
+ * - The header line is not correct, coordinates lines has incorrect type or has not the right number of elements
+ * </pre>
+ * 
+ * @author AMARTIN
+ *
+ */
+public class IllegalFormatLineException extends RuntimeException{
 
 	public IllegalFormatLineException() {
-		// TODO Auto-generated constructor stub
 	}
-
 
 	public IllegalFormatLineException(String message) {
 		super(message);

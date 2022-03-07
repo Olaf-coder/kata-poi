@@ -5,10 +5,10 @@ import java.util.Objects;
 import fr.alten.amartin.kata_poi.exceptions.CoherenceCoordinateException;
 import fr.alten.amartin.kata_poi.exceptions.OutOfRangeNumberException;
 
-/** Represent an Area (with 4 coordinates: max/min latitude/longitude)
+/**
+ * Represent an Area (with 4 coordinates: max/min latitude/longitude)
  * 
- * @author Rellique
- *
+ * @author AMARTIN
  */
 public final class Area {
 
@@ -17,91 +17,141 @@ public final class Area {
 	private float maxLat;
 	private float maxLon;
 	
-	public Area(float minLat, float minLon, float maxLat, float maxLon) {
+	/**
+	 * Create the area with minimal and maximal limits for longitude and latitude in argument
+	 * 
+	 * @param minLat
+	 * @param minLon
+	 * @param maxLat
+	 * @param maxLon
+	 * @throws OutOfRangeNumberException if values of minLat, minLon, maxLat or maxLon exceed limits
+	 * @throws CoherenceCoordinateException if minLat, minLon, maxLat or maxLon are not an increment of UNIT
+	 */
+	public Area(float minLat, float minLon, float maxLat, float maxLon) throws OutOfRangeNumberException, CoherenceCoordinateException{
 		super();
-		try {
-			setMinLat(minLat);
-			setMinLon(minLon);
-			setMaxLat(maxLat);
-			setMaxLon(maxLon);
-			
-			float diffLat = Math.abs(this.minLat - this.maxLat);
-			float diffLon = Math.abs(this.minLon - this.maxLon);
-			
-			if (diffLat != CoordinateConstants.UNIT)
-				throw new CoherenceCoordinateException("The difference between maxLatitude and minLatitude is bigger than the UNIT");
-			if (diffLon != CoordinateConstants.UNIT)
-				throw new CoherenceCoordinateException("The difference between maxLongitude and minLongitude is bigger than the UNIT");
-			if (this.minLon >= this.maxLon)
-				throw new CoherenceCoordinateException("MaxLongitude lower than MinLongitude");
-			if (this.minLat >= this.maxLat)
-				throw new CoherenceCoordinateException("MaxLatitude lower than MinLatitude");
-		} catch (Exception e) {
-//			e.printStackTrace();
-			throw new IllegalArgumentException(e.getMessage());
-		}
+		setMinLat(minLat);
+		setMinLon(minLon);
+		setMaxLat(maxLat);
+		setMaxLon(maxLon);
+		
+		float diffLat = Math.abs(this.minLat - this.maxLat);
+		float diffLon = Math.abs(this.minLon - this.maxLon);
+		
+		if (diffLat != CoordinateConstants.UNIT)
+			throw new CoherenceCoordinateException("The difference between maxLatitude and minLatitude is bigger than the UNIT");
+		if (diffLon != CoordinateConstants.UNIT)
+			throw new CoherenceCoordinateException("The difference between maxLongitude and minLongitude is bigger than the UNIT");
+		if (this.minLon >= this.maxLon)
+			throw new CoherenceCoordinateException("MaxLongitude lower than MinLongitude");
+		if (this.minLat >= this.maxLat)
+			throw new CoherenceCoordinateException("MaxLatitude lower than MinLatitude");
 	}
 	
-	public Area(float minLat, float minLon) {
+	/**
+	 * Create the area with only minimal limits in argument (limit exception thanks to internal calculation)
+	 * 
+	 * @param minLat
+	 * @param minLon
+	 * @throws OutOfRangeNumberException if values of minLat or minLon exceed limits
+	 * @throws CoherenceCoordinateException if minLat or minLon are not an increment of UNIT
+	 */
+	public Area(float minLat, float minLon) throws OutOfRangeNumberException, CoherenceCoordinateException{
 		super();
-		try {
-			setMinLat(minLat);
-			setMinLon(minLon);
-			setMaxLat(minLat + CoordinateConstants.UNIT);
-			setMaxLon(minLon + CoordinateConstants.UNIT);			
-		} catch (Exception e) {
-//			e.printStackTrace();
-			throw new IllegalArgumentException(e.getMessage());
-		}
+		setMinLat(minLat);
+		setMinLon(minLon);
+		setMaxLat(minLat + CoordinateConstants.UNIT);
+		setMaxLon(minLon + CoordinateConstants.UNIT);	
 	}
 	
-	
+	/**
+	 * Get the minimal limit of Latitude
+	 * @return minLat
+	 */
 	public float getMinLat() {
 		return minLat;
 	}
-
+	
+	/**
+	 * Get the minimal limit of Longitude
+	 * @return minLon
+	 */
 	public float getMinLon() {
 		return minLon;
 	}
-
+	
+	/**
+	 * Get the maximal limit of Latitude
+	 * @return maxLat
+	 */
 	public float getMaxLat() {
 		return maxLat;
 	}
 
+	/**
+	 * Get the maximal limit of Longitude
+	 * @return maxLon
+	 */
 	public float getMaxLon() {
 		return maxLon;
 	}
 
-	public void setMinLat(float minLat) throws OutOfRangeNumberException {
+	/**
+	 * Set the Maximal Latitude limit of the area
+	 * 
+	 * @param minLat
+	 * @throws OutOfRangeNumberException if minLat exceed the {@link CoordinateConstants} MIN_LAT or (MAX_LAT - UNIT) limits.
+	 * @throws CoherenceCoordinateException if minLat is not an increment of {@link CoordinateConstants}.UNIT
+	 */
+	public void setMinLat(float minLat) throws OutOfRangeNumberException, CoherenceCoordinateException{
 		if (minLat < CoordinateConstants.MIN_LAT || minLat > (CoordinateConstants.MAX_LAT - CoordinateConstants.UNIT))
 			throw new OutOfRangeNumberException("The value is out of Coordinate limit");
 		if (minLat % CoordinateConstants.UNIT != 0)
-			throw new IllegalArgumentException("The value is not an increment of the UNIT");
+			throw new CoherenceCoordinateException("The value is not an increment of the UNIT");
 		this.minLat = minLat;
 	}
 	
-
-	public void setMinLon(float minLon) throws OutOfRangeNumberException {
+	/**
+	 * Set the Minimal Longitude limit of the area
+	 * 
+	 * @param minLon
+	 * @throws OutOfRangeNumberException if minLon exceed the {@link CoordinateConstants} MIN_LONG or (MAX_LONG - UNIT) limits.
+	 * @throws CoherenceCoordinateException if minLon is not an increment of {@link CoordinateConstants}.UNIT
+	 */
+	public void setMinLon(float minLon) throws OutOfRangeNumberException, CoherenceCoordinateException{
 		if (minLon < CoordinateConstants.MIN_LONG || minLon > (CoordinateConstants.MAX_LONG - CoordinateConstants.UNIT))
 			throw new OutOfRangeNumberException("The value is out of Coordinate limit");
 		if (minLon % CoordinateConstants.UNIT != 0)
-			throw new IllegalArgumentException("The value is not an increment of the UNIT");
+			throw new CoherenceCoordinateException("The value is not an increment of the UNIT");
 		this.minLon = minLon;
 	}
 
-	public void setMaxLat(float maxLat) throws OutOfRangeNumberException {
+	/**
+	 * Set the Maximal Latitude limit of the area
+	 * 
+	 * @param maxLat
+	 * @throws OutOfRangeNumberException if maxLat exceed the {@link CoordinateConstants} (MIN_LAT + UNIT) or MAX_LAT limits.
+	 * @throws CoherenceCoordinateException if maxLat is not an increment of {@link CoordinateConstants}.UNIT
+	 */
+	public void setMaxLat(float maxLat) throws OutOfRangeNumberException, CoherenceCoordinateException{
 		if (maxLat < (CoordinateConstants.MIN_LAT + CoordinateConstants.UNIT) || maxLat > CoordinateConstants.MAX_LAT)
 			throw new OutOfRangeNumberException("The value is out of Coordinate limit");
 		if (maxLat % CoordinateConstants.UNIT != 0)
-			throw new IllegalArgumentException("The value is not an increment of the UNIT");
+			throw new CoherenceCoordinateException("The value is not an increment of the UNIT");
 		this.maxLat = maxLat;
 	}
 
-	public void setMaxLon(float maxLon) throws OutOfRangeNumberException {
+	/**
+	 * Set the Maximal Longitude limit of the area
+	 * 
+	 * @param maxLon
+	 * @throws OutOfRangeNumberException if maxLon exceed the {@link CoordinateConstants} (MIN_LONG + UNIT) or MAX_LONG limits.
+	 * @throws CoherenceCoordinateException if maxLon is not an increment of {@link CoordinateConstants}.UNIT
+	 */
+	public void setMaxLon(float maxLon) throws OutOfRangeNumberException, CoherenceCoordinateException{
 		if ((maxLon < (CoordinateConstants.MIN_LONG + CoordinateConstants.UNIT) || maxLon > CoordinateConstants.MAX_LONG))
 			throw new OutOfRangeNumberException("The value is out of Coordinate limit");
 		if (maxLon % CoordinateConstants.UNIT != 0)
-			throw new IllegalArgumentException("The value is not an increment of the UNIT");
+			throw new CoherenceCoordinateException("The value is not an increment of the UNIT");
 		this.maxLon = maxLon;
 	}
 

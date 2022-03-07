@@ -18,22 +18,10 @@ public class App
     {
     	PointOfInterest poi1 = new PointOfInterest("Hello", 1, 2);
     	Area a1 = new Area(50, 101);
-//    	PointOfInterest poi2 = new PointOfInterest(null, 100, 800);
-//    	PointOfInterest poi3 = new PointOfInterest("holliday", 100, 300);
+    	PointOfInterest poi2 = new PointOfInterest("idx", (int)100, 800);
+    	PointOfInterest poi3 = new PointOfInterest(null, 100, 800);
+    	PointOfInterest poi4 = new PointOfInterest("holliday", 100, 300);
         
-//        System.out.println("poi1.equals(poi2): " + poi1.equals(poi2));
-//        System.out.println("poi2.equals(poi1) : " + poi2.equals(poi1));
-//        System.out.println("poi1.equals(poi1): " + poi1.equals(poi1));
-//        System.out.println("poi2.equals(poi2) : " + poi2.equals(poi2));
 
-        System.out.println(poi1.toString());
-        System.out.println(a1.toString());
-//        System.out.println(poi2.toString());
-//        System.out.println(poi3.toString());
-
-        ArrayList<String> mylist = new ArrayList<String>();
-        
-//        HashMap<Integer, String> mylist = new HashMap<Integer, String>();
-//        mylist.entrySet().stream().filter
     }
 }

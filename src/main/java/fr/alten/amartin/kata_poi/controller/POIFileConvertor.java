@@ -2,16 +2,23 @@ package fr.alten.amartin.kata_poi.controller;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 import fr.alten.amartin.kata_poi.exceptions.IllegalFormatLineException;
+import fr.alten.amartin.kata_poi.exceptions.OutOfRangeNumberException;
 import fr.alten.amartin.kata_poi.model.PointOfInterest;
 
+/**
+ * Singleton that enable to convert a file that contains points of interest into an usable list of {@link PointOfInterest} object for your program 
+ * 
+ * {@link #getInstance()}
+ * {@link #createPOIArrayFromFile(Object)}
+ * @author AMARTIN
+ *
+ */
 public class PoiFileConvertor {
 
 	private static PoiFileConvertor instance;
@@ -22,6 +29,10 @@ public class PoiFileConvertor {
 		
 	}
 	
+	/**
+	 * Get or initialize the instance of the Singleton PoiFileConvertor 
+	 * @return
+	 */
 	public static PoiFileConvertor getInstance() {
 		if (instance == null) {
 			synchronized (PoiFileConvertor.class) {
@@ -33,7 +44,14 @@ public class PoiFileConvertor {
 		return instance;
 	}
 	
-	public void verifyFirstLine(final String firstLine) throws IllegalFormatLineException {
+	/**
+	 * Verify the integrity of the header in the file. Just there to raise an exception early and avoid to read the rest of the file
+	 * 
+	 * @param firstLine is the expected header of the poi file. for now: "@id @lat @lon"
+	 * @throws NullPointerException is the String line is null
+	 * @throws IllegalFormatLineException if the header is not exactly "@id @lat @lon"
+	 */
+	public void verifyFirstLine(final String firstLine) throws NullPointerException, IllegalFormatLineException{
 		if (firstLine == null)
 			throw new NullPointerException();
 		String[] fLSplited = firstLine.split(" ");
@@ -43,7 +61,16 @@ public class PoiFileConvertor {
 		}
 	}
 	
-	public PointOfInterest verifyPoiLine(final String poiLine) throws IllegalFormatLineException, NumberFormatException {
+	/**
+	 * Create a Poi object from a string. Can also be use to simply verify the integrity of the line
+	 * 
+	 * @param poiLine is the String extracted from the PoiFile 
+	 * @return a new {@link PointOfInterest} object
+	 * @throws IllegalFormatLineException if the line has not a correct format: not 3 elements, lat or lon are not number
+	 * @throws NullPointerException if the String line is null 
+	 * @throws OutOfRangeNumberException when creates the new PointOfInterest object
+	 */
+	public PointOfInterest createPoiFromLine(final String poiLine) throws IllegalFormatLineException, NullPointerException, OutOfRangeNumberException {
 		if (poiLine == null)
 			throw new NullPointerException();
 		String[] pLSplited = poiLine.split(" ");
@@ -55,6 +82,14 @@ public class PoiFileConvertor {
 		return new PointOfInterest(id, lat, lon);
 	}
 	
+	/**
+	 * Verifies the integrity of the given file in parameters. Deprecated 
+	 * @see #createPOIArrayFromFile(Object) instead
+	 * @deprecated 
+	 * @param poiFilePath poiFile (path String or directly a File object) is the file that contains the list of Poi.
+	 * @throws IOException if BufferedReader has a problem when in closing phase.
+	 * @throws IllegalFormatLineException if the file object is null or not a File nor a String path
+	 */
 	public void verifyIntegrityFile(final Object poiFilePath) throws IllegalFormatLineException, IOException {
 		FileReader fileReader = null;
 		String line;
@@ -74,12 +109,22 @@ public class PoiFileConvertor {
 		try (BufferedReader bufferedReader = new BufferedReader(fileReader)) {
 			verifyFirstLine(bufferedReader.readLine());
 			while ((line = bufferedReader.readLine()) != null) {
-				verifyPoiLine(line);
+				createPoiFromLine(line);
 			}
 		}
 		fileReader.close();
 	}
 	
+	
+	/**
+	 * Create an ArrayList<PointOfInterest> in order to be treated by PoiSearchEngine or your program
+	 * It also verifies the integrity of the given file in parameters 
+	 * 
+	 * @param poiFile (path String or directly a File object) is the file that contains the list of Poi.
+	 * @return the ArrayList<PointOfInterest> in order to be treated in your program
+	 * @throws IOException if BufferedReader has a problem when in closing phase.
+	 * @throws IllegalFormatLineException if the file object is null or not a File nor a String path
+	 */
 	public ArrayList<PointOfInterest> createPOIArrayFromFile(final Object poiFile) throws IOException, IllegalFormatLineException {
 		
 		ArrayList<PointOfInterest> poiList = new ArrayList<>();
@@ -101,7 +146,7 @@ public class PoiFileConvertor {
 		try (BufferedReader bufferedReader = new BufferedReader(fileReader)) {
 			verifyFirstLine(bufferedReader.readLine());
 			while ((line = bufferedReader.readLine()) != null)
-				poiList.add(verifyPoiLine(line));
+				poiList.add(createPoiFromLine(line));
 		}
 		fileReader.close();
 		return poiList;

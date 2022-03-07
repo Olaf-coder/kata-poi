@@ -23,7 +23,7 @@ import fr.alten.amartin.kata_poi.model.Area;
 import fr.alten.amartin.kata_poi.model.PointOfInterest;
 
 /**
- * @author Rellique
+ * @author AMARTIN
  *
  */
 
@@ -81,12 +81,12 @@ class PoiFileConvertorTest {
 
 	@Test
 	void testVerifyPoiLineSuccess() throws IllegalFormatLineException {
-		pfc.verifyPoiLine("id1 51 32");
-		pfc.verifyPoiLine("1 51 32");
-		pfc.verifyPoiLine("id1 51.5 32");
-		pfc.verifyPoiLine("id1 51 32.5");
-		pfc.verifyPoiLine("id1 -51.5 32");
-		pfc.verifyPoiLine("id1 51 -32.5");
+		pfc.createPoiFromLine("id1 51 32");
+		pfc.createPoiFromLine("1 51 32");
+		pfc.createPoiFromLine("id1 51.5 32");
+		pfc.createPoiFromLine("id1 51 32.5");
+		pfc.createPoiFromLine("id1 -51.5 32");
+		pfc.createPoiFromLine("id1 51 -32.5");
 	}
 
 //	@Test
@@ -130,15 +130,15 @@ class PoiFileConvertorTest {
 	@Test
 	void testVerifyPoiLineError() {
 		Exception e1 = Assertions.assertThrows(NullPointerException.class, ()->{
-			pfc.verifyPoiLine(null);
+			pfc.createPoiFromLine(null);
 		});
 
 		Exception e2 = Assertions.assertThrows(IllegalFormatLineException.class, ()->{
-			pfc.verifyPoiLine("");
+			pfc.createPoiFromLine("");
 		});
 
 		Exception e3 = Assertions.assertThrows(NumberFormatException.class, ()->{
-			pfc.verifyPoiLine("1d51 cc 0");
+			pfc.createPoiFromLine("1d51 cc 0");
 		});
 	}
 
