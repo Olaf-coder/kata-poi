@@ -7,7 +7,7 @@ For privacy reasons (and because i don't want other candidates reuse my code), i
 
 Nevertheless, i will give the result here publicly. Enjoy !
 
-Note: In the current version, you can create the property file PoiMapConfig.properties in order to define the limit of the MAP.
+Note: In the current version, you can create the property file PoiMapConfig.properties to define the limit of the MAP.
 The file must be a Java resource in order to be considered by the library.
 If there is not PoiMapConfig.properties the values will be :
 * minLat=-90
